@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Kovaljov｜Django&Python{% endblock %}
+{% block content %}
+    {% verbatim %}
+    <div class="myContianer">
+        <div class="index page-header">
+            <h1>
+                Welcome
+            </h1>
+        </div>
+        <div ng-cloak class="article ng-cloak" ng-controller="indexController">
+            <h1 class="text-center">{{ blog.caption | trustHtml }}</h1>
+
+            <div style="display:inline;">
+                <a href="/classify/{{ blog.classification.id }}/"><span
+                        class="label label-primary">{{ blog.classification.c_name }}</span></a>
+                <a href="/tag/{{ tag.id }}/" ng-repeat="tag in blog.tags"><span
+                        class="label label-success">{{ tag.tag_name }}</span></a>
+            </div>
+            <div class="art-time">
+                <span class="">{{ blog.create_time }}</span>
+            </div>
+            <div class="art-tag"></div>
+            <div class="art-content" ng-bind-html="blog.content | trustHtml"></div>
+            <div class="art-footer">
+                <div class="art-ass">
+                    <small>Read：{{ blog.read_count }} Comments：{{ blog.comment_count }}</small>
+                </div>
+                <ul class="pagination-plain">
+                    <li class="previous">
+                        <a href="/blog/{{ pagination.pre_id }}/">{{ pagination.pre_title }} Previous</a>
+                    </li>
+                    <li class="next">
+                        <a href="/blog/{{ pagination.next_id }}/">Next {{ pagination.next_title }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="http://c.trustutn.org/show?type=3&sn=201505011007625088"></script>
+    {% endverbatim %}
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+<title>{% block title %}Kovaljov｜Python&Django{% endblock %}</title>
+{% block content %}
+    <div class="container">
+        {% verbatim %}
+        <div class="container" ng-controller="knowListAdminController">
+            <div class="article" style="margin-bottom: 1000px;">
+                <div class="text-right" style="margin-top:10px;"><a class="btn btn-primary btn-lg"
+                                                                    href="/blog_admin/create_know/">New post</a></div>
+                <h2>Posts</h2>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Question</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Published</th>
+                        <th>Modify</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="know in know_list">
+                        <th scope="row">{{ know.id }}</th>
+                        <td>{{ know.question }}</td>
+                        <td>{{ know.create_time }}</td>
+                        <td>{{ know.modify_time }}</td>
+                        <td>{{ know.publish }}</td>
+                        <td style="width:220px;">
+                            <a href="/blog_admin/create_know/{{ know.id }}/" class="btn btn-primary">Modify</a>
+                            <a href="" class="btn btn-primary" ng-click="blogOpt(2,know.id)">Delete</a>
+                            <a href="" class="btn btn-primary" ng-hide="know.publish"
+                               ng-click="blogOpt(3,know.id)">Publish</a>
+                            <a href="" class="btn btn-primary" ng-show="know.publish"
+                               ng-click="blogOpt(3,know.id)">Off the assembly line</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+    </div>
+{% endblock %}

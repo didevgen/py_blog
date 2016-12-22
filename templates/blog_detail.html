@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Kovaljov｜Django&Python{% endblock %}
+{% block content %}
+    {% verbatim %}
+    <div ng-cloak class="ng-cloak" ng-controller="blogDetailController">
+        <div class="myContianer">
+            <div class="article">
+                <h1 class="text-center">{{ blog.caption | trustHtml }}</h1>
+
+                <div style="display:inline;">
+                    <a href="/classify/{{ blog.classification.id }}/"><span class="label label-primary">{{ blog.classification.c_name }}</span></a>
+                    <a href="/tag/{{ tag.id }}/" ng-repeat="tag in blog.tags"><span class="label label-success">{{ tag.tag_name }}</span></a>
+                </div>
+                <div class="art-time">
+                    <span class="">{{ blog.create_time }}</span>
+                </div>
+                <div class="art-tag"></div>
+                <div class="art-content" ng-bind-html="blog.content | trustHtml"></div>
+                <div class="art-footer">
+                    <div class="art-ass">
+                        <small>Read count：{{ blog.read_count }} Comment：{{ blog.comment_count }}</small>
+                    </div>
+                    <ul class="pagination-plain">
+                        <li class="previous">
+                            <a href="/blog/{{ pagination.pre_id }}/">{{ pagination.pre_title }} Previous</a>
+                        </li>
+                        <li class="next">
+                            <a href="/blog/{{ pagination.next_id }}/">Next {{ pagination.next_title }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="article comment" ng-show="have_comment">
+                <div ng-repeat="comment in comments" class="comment" style="margin-top: 5px; margin-bottom: 5px;">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            <img src="/img/{{ comment.avatar }}" class="avatar" width="100px" height="100px" alt=""/>
+
+                            <p>{{ comment.author }}</p>
+                        </div>
+                        <div class="col-md-10" style="">
+                            <span class="comment-type">{{ comment.author }}Comment：</span>
+
+                            <div>{{ comment.content }}</div>
+                        </div>
+                    </div>
+                    <div class="comment-bottom text-right" style="border-bottom: 2px solid darkgray">
+                        <span>{{ comment.create_time }}<a href="#newComment" class="aReply" ng-click="reply(comment.author, comment.id, comment.id)">Reply</a></span>
+                    </div>
+                    <div ng-repeat="reply in comment.reply" class="row reply">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 text-center">
+                                <img src="/img/{{ reply.avatar }}" class="avatar" width="100px" height="100px" alt=""/>
+
+                                <p>{{ reply.author }}</p>
+                            </div>
+                            <div class="col-md-9">
+                                <span class="comment-type">{{ reply.author }} Reply {{ reply.to }}：</span>
+
+                                <div>{{ reply.content }}</div>
+                            </div>
+                        </div>
+                        <div class="comment-bottom text-right">
+                            <span>{{ reply.create_time }}<a href="#newComment" class="aReply" ng-click="sub_reply(reply.author, comment.id, reply.id)">Reply</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="article text-center " ng-hide="have_comment">
+                <h2>
+                    <small style="cursor: default;">No comment yet</small>
+                </h2>
+            </div>
+            <div class="article" id="newComment">
+                <div class="read-comment">
+                    {% endverbatim %}
+                    <form class="form-inline text-right" ng-submit="processForm()">
+                        {{ csrf_token }}
+                        {% verbatim %}
+                        <div ng-class='{"has-error": content}'>
+                            <span ng-show="content">Please enter a comment～</span>
+                            <textarea ng-change="contentChange()" name="" style="width: 100%" class="form-control"
+                                      id="comment" ng-model="commentData.content" rows="10"></textarea>
+                        </div>
+                        <br/>
+
+                        <div class="form-group" ng-show="is_reply">
+                            <span>Reply：{{ to_the }}</span>
+                            <a ng-click="cancel_reply()">Cancel</a>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                            <input type="text" class="form-control" id="nick" ng-model="commentData.nick"
+                                   placeholder="Enter a nickname(Optional)">
+                        </div>
+                        <div class="form-group" ng-class='{"has-error": verify}'>
+                            <label class="sr-only" for="exampleInputPassword3">Password</label>
+                            <input ng-change="verifyChange()" ng-model="commentData.verify" type="text"
+                                   class="form-control" id="verify" placeholder="Enter confirmation code">
+                            <span ng-show="verify"><small>Enter confirmation code~</small></span>
+                        </div>
+                        <a href=""><img src="/verify/{{ verifyp }}" class="verify" ng-click="refresh_req()" alt=""/></a>
+                        {% endverbatim %}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

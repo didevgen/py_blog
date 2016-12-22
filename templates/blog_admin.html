@@ -1,0 +1,53 @@
+{% extends "admin_base.html" %}
+<title>{% block title %}Kovaljov｜Python&Django{% endblock %}</title>¬
+{% block content %}
+    {% verbatim %}
+    <div ng-show="opt" class="alert alert-warning alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+    </div>
+    <div>
+        <div class="container" ng-controller="blogListAdminController">
+            <div class="article" style="margin-bottom: 1000px;">
+                <div class="text-right" style="margin-top:10px;"><a class="btn btn-primary btn-lg"
+                                                                    href="/blog_admin/create_blog/">New article</a></div>
+                <h2>文章列表</h2>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Created time</th>
+                        <th>Latest update</th>
+                        <th>Read count</th>
+                        <th>Comments count</th>
+                        <th>Publish</th>
+                        <th>Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="blog in blog_list">
+                        <th scope="row">{{ blog.id }}</th>
+                        <td>{{ blog.caption }}</td>
+                        <td>{{ blog.create_time }}</td>
+                        <td>{{ blog.modify_time }}</td>
+                        <td>{{ blog.read_count }}</td>
+                        <td>{{ blog.comment_count }}</td>
+                        <td>{{ blog.publish }}</td>
+                        <td style="width:220px;">
+                            <a href="/blog_admin/create_blog/{{ blog.id }}/" class="btn btn-primary">Update</a>
+                            <a href="" class="btn btn-primary" ng-click="blogOpt(2,blog.id)">Delete</a>
+                            <a href="" class="btn btn-primary" ng-hide="blog.publish"
+                               ng-click="blogOpt(3,blog.id)">Publish</a>
+                            <a href="" class="btn btn-primary" ng-show="blog.publish"
+                               ng-click="blogOpt(3,blog.id)">Off the assembly line</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}

@@ -1,0 +1,178 @@
+<html lang="zh-CN">
+<head>
+    {% block style %}
+        <meta charset="utf-8">
+        <meta name="keywords" content="个人博客,rapospectre,个人博客模板,rapo,个人网站模版,django,python,网站建设">
+        <meta name="description" content="rapospectre的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设"/>
+        <link href="/img/header.png" rel="shortcut icon"/>
+        {#    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">#}
+        {#<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">#}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/css/vendor/bootstrap.min.css" rel="stylesheet">
+        <!-- Loading Flat UI -->
+        <link href="/css/flat-ui.css" rel="stylesheet">
+        <link href="/css/my-ui.css" rel="stylesheet">
+        <link href="/css/prism.css" rel="stylesheet">
+        <script src="http://apps.bdimg.com/libs/angular.js/1.2.5/angular.min.js"></script>
+    {% endblock %}
+    <title>{% block title %}{{ blogtitle }}{% endblock %}</title>
+</head>
+<body ng-cloak class="ng-cloak" style="background:#34495E;" ng-app="blogApp">
+<div>
+    <div class="jumbotron hidden-md hidden-lg" style="background:#3498DB;margin-bottom:0px">
+        <div class="container text-center">
+            <img src="/img/MYLOGOs.png" alt="">
+
+            <h1>Python&Django</h1>
+            <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+        </div>
+    </div>
+    <div class="jumbotron hidden-sm hidden-xs" style="background:#3498DB;margin-bottom:0px">
+        <div class="container">
+        </div>
+    </div>
+    <nav id="mynav" class="navbar navbar-default navbar-embossed" role="navigation"
+         style="margin-bottom:0px; z-index:9999; width:100%;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+            <a class="navbar-brand" href="#">RaPo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-01">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/knowledge">Knowledge</a></li>
+                <li><a href="/lab">Laboratory</a></li>
+            </ul>
+            <form class="navbar-form navbar-right" action="#" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                        <span class="input-group-btn">
+            <button type="submit" class="btn"><span class="fui-search"></span></button>
+          </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+    <div class="raw">
+        <div>
+            {% verbatim %}
+                <div class="col-md-3 hidden-xs hidden-sm"
+                     style=" padding-bottom:200px; padding-left:0px;padding-right:0px;background:#34495e; box-shadow: inset -2px -2px -2px rgba(0, 0, 0, 0.15);">
+
+                    <div ng-cloak class="ng-cloak" ng-controller="toolController">
+                        <div class="todo">
+                            <ul>
+                                <li>
+                                    <span href="">Latest release</span>
+                                </li>
+                                <li ng-repeat="latest in latest_list">
+                                    <div class="todo-icon fui-time"></div>
+                                    <div class="todo-content">
+                                        <h4 class="todo-name">
+                                            <a class="todoa" href="/blog/{{ latest.id }}/">
+                                                <div><span>{{ latest.caption }}</span></div>
+                                            </a>
+                                        </h4>
+                                        {{ latest.create_time }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="todo">
+                            <ul>
+                                <li>
+                                    <span>Classifies</span>
+                                </li>
+                                <li ng-repeat="classify in classifies">
+                                    <div class="todo-icon fui-list"></div>
+                                    <div class="todo-content">
+                                        <h4 class="todo-name">
+                                            <a class="todoa" href="/classify/{{ classify.id }}">
+                                                <div><span>{{ classify.c_name }}</span></div>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="todo" style="padding-bottom: 100px;">
+                            <ul>
+                                <li>
+                                    <span>Read ranking</span>
+                                </li>
+                                <li ng-repeat="read in read_list">
+                                    <div class="todo-icon fui-eye"></div>
+                                    <div class="todo-content">
+                                        <h4 class="todo-name">
+                                            <a class="todoa" href="/blog/{{ read.id }}/">
+                                                <div><span>{{ read.caption }}</span></div>
+                                            </a>
+                                        </h4>
+                                        Read：{{ read.read_count }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endverbatim %}
+            <div class="col-md-9 col-sm-12 col-xs-12" style=" padding-bottom:2000px;background:#E4E0E0;">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+    <footer class="navbar navbar-default navbar-fixed-bottom hidden-sm hidden-xs" role="navigation">
+        <div class="navbar-header">
+            <ul class="nav navbar-nav">
+                <li><a href="/" title="">Home</a></li>
+                <li><a href="/blog_admin/" title="">Manage</a></li>
+            </ul>
+
+        </div>
+    </footer>
+    {% block js %}
+        <script src="/js/blogapp.js"></script>
+        <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="/js/flat-ui.min.js"></script>
+        <script src="/js/sco/sco.collapse.js"></script>
+        <script src="/js/sco/sco.message.js"></script>
+        <script src="/js/prism.js"></script>
+        <script src="/js/stickUp.min.js"></script>
+        <script src="http://s95.cnzz.com/z_stat.php?id=1254921518&web_id=1254921518" language="JavaScript"></script>
+        <script type="text/javascript">
+            //initiating jQuery
+            jQuery(function ($) {
+                $(document).ready(function () {
+                    //enabling stickUp on the '.navbar-wrapper' class
+                    $('#mynav').stickUp();
+                });
+            });
+
+        </script>
+
+
+        <script>window._bd_share_config = {
+            "common": {
+                "bdSnsKey": {},
+                "bdText": "",
+                "bdMini": "1",
+                "bdMiniList": false,
+                "bdPic": "",
+                "bdStyle": "0",
+                "bdSize": "16"
+            },
+            "slide": {"type": "slide", "bdImg": "2", "bdPos": "right", "bdTop": "250"},
+            "selectShare": {"bdContainerClass": null, "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]}
+        };
+        with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+    {% endblock %}
+</body>
+</html>

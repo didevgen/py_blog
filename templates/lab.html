@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Kovaljov｜Django&Python{% endblock %}
+{% block content %}
+    {% verbatim %}
+    <div class="myContianer" ng-controller="labController">
+        <div class="article">
+            <h2>Laboratory
+                <small>Here is used to play a variety of black technology</small>
+            </h2>
+        </div>
+        <div class="article">
+            <div class="text-center">
+                <h1>Unstable IP proxy</h1>
+            </div>
+            <div class="art-tag"></div>
+            <div>
+                <h4>Yes, you are not mistaken, unstable IP proxy. Because the agent is the site behind the reptiles from all corners of the world to climb, so certainly can not guarantee the stability of slightly ~ but every agent here are valid after site crawler verification drops
+                     , But the timeliness of the unknown, you may request the time has expired </h4>
+                <br/>
+                <h4>This experimental feature updates the agent every time the whole point, every time the slightest check agent, the basic can not guarantee that no drop IP.</h4>
+                <br/>
+                <h4>To do this drop reason? One is to improve the resources of the server, usually idle is idle. The other is of course to provide a convenient proxy IP access way</h4>
+                <br/>
+                <h4>At this stage to provide the IP is still relatively small, about 100 per hour or so, completely free, providing API,</h4>
+            </div>
+            <br/>
+            <br/>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <a class="thumbnail text-center tips">
+                        <h4>Number of users：</h4>
+
+                        <h2 class="tipContent">{{ total_user }} people</h2>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a class="thumbnail text-center tips">
+                        <h4>Request Today：</h4>
+
+                        <h2 class="tipContent">{{ req_times }} times</h2>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a class="thumbnail text-center tips">
+                        <h4>Available agents：</h4>
+
+                        <h2 class="tipContent">{{ proxy_num }}</h2>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a class="thumbnail text-center tips">
+                        <h4>Update time：</h4>
+
+                        <div class="tipContent">
+                            <span>{{ update_time }}</span>
+                            <br/>
+
+                        </div>
+
+
+                    </a>
+                </div>
+            </div>
+            <br/>
+
+            <div class="text-right" style="margin-bottom: 20px;">
+                <a href="/lab/proxy/">Give it a try</a>
+            </div>
+        </div>
+        <div class="article">
+            <div class="text-center">
+                <h1>Common interface monitoring</h1>
+            </div>
+            <div class="art-tag"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="thumbnail text-center tips">
+                        <h4>Visit today：</h4>
+
+                        <div class="tipContent">
+                            <h1>{{ api_control }}</h1>
+                        </div>
+
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a class="thumbnail text-center tips">
+                        <h4>Status：</h4>
+
+                        <div class="tipContent">
+                            <h1 ng-show="api_status">normal</h1>
+
+                            <h1 ng-hide="api_status" style="color: red;">malfunction</h1>
+                        </div>
+                    </a>
+                </div>
+                <div>
+                    <br/>
+                </div>
+                <div class="text-right disabled" style="margin-bottom: 20px;">
+                    <a href="/lab/monitor/">detailed</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}

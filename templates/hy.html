@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Kovaljov｜Django&Python{% endblock %}
+{% block content %}
+    <div class="myContianer" ng-controller="labProxyController">
+        <div class="article">
+            <div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Content</th>
+                        <th>Failure information</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for hylog in hylog_list %}
+                    <tr>
+                        <th scope="row">{{ hylog.id }}</th>
+                        <td>{{ hylog.content }}</td>
+                        <td>{{ hylog.fail_message }}</td>
+                        <td>{{ hylog.create_time }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
