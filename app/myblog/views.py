@@ -318,7 +318,7 @@ def submit_comment(req, bid=None):
         return HttpResponse(encodejson(6, body), content_type='application/json')
     blog_list = Article.objects.filter(id=bid)
     if not blog_list.exists():
-        body['fail_mes'] = 'id 不合法'
+        body['fail_mes'] = 'id invalid'
         return HttpResponse(encodejson(7, body), content_type='application/json')
     blog = blog_list[0]
     if nick == '' or nick is None:
