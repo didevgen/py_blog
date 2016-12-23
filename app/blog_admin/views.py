@@ -53,10 +53,10 @@ def login(req):
     password = req.POST.get('password')
     user = authenticate(username=account, password=password)
     if user is None:
-        body['fail_mes'] = '用户或密码不正确～'
+        body['fail_mes'] = 'The user or password is incorrect'
         return HttpResponse(encodejson(7, body), content_type="application/json")
     if not user.is_active:
-        body['fail_mes'] = '用户已被禁用～'
+        body['fail_mes'] = 'User already exists'
         return HttpResponse(encodejson(13, body), content_type="application/json")
     req.session['user'] = account
     return HttpResponse(encodejson(1, body), content_type="application/json")
@@ -310,7 +310,7 @@ def comment_opt_new(req):
     # print '----'
     # print content
     new_reply = CommentReply(content=content,
-                             author="RaPoSpectre",
+                             author="Kovaljov",
                              avatar="master.png")
     if otype == 1:
         comment = Comment.objects.get(id=cid)
