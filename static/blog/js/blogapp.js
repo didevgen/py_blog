@@ -49,7 +49,6 @@ blogApp.controller("blogController", function ($scope, $http, $window) {
     };
     $scope.req_http = function (para) {
         if (para == 0) {
-            alert("木有啦");
             return null;
         }
         var url = $scope.req_type() + '?page=' + para;
@@ -187,7 +186,6 @@ blogApp.controller("knowController", function ($scope, $http) {
     $scope.search_text = '';
     $scope.req_http = function (url) {
         if (url == 0) {
-            alert("木有啦");
             return null;
         }
         if ($scope.search_text == '') {
@@ -292,10 +290,6 @@ adminApp.controller("articleController", function ($scope, $http, $window) {
             .success(function (data) {
                 console.log(data);
                 if (data.status == 1) {
-                    // if not successful, bind errors to error variables
-                    alert('发布成功！');
-                    //$window.location.reload();
-                    //$scope.errorSuperhero = data.errors.superheroAlias;
                 } else {
                     // if successful, bind success message to message
                     var error_mes = data.body.fail_mes;
@@ -323,7 +317,6 @@ adminApp.controller("articleController", function ($scope, $http, $window) {
                 console.log(data);
                 if (data.status == 1) {
                     // if not successful, bind errors to error variables
-                    alert('增加成功！');
                     if (data.body.type == 1) {
                         $scope.classifies = data.body.classify;
                     } else {
@@ -379,7 +372,6 @@ adminApp.controller("knowAdminController", function ($scope, $http, $window) {
             .success(function (data) {
                 if (data.status == 1) {
                     // if not successful, bind errors to error variables
-                    alert('增长姿势成功！');
                     //$window.location.reload();
                 } else {
                     // if successful, bind success message to message
@@ -398,8 +390,6 @@ adminApp.controller("knowAdminController", function ($scope, $http, $window) {
         })
             .success(function (data) {
                 if (data.status == 1) {
-                    // if not successful, bind errors to error variables
-                    alert('增加env成功！');
                     $scope.envs = data.body.env;
                     //$window.location.reload();
                 } else {
@@ -454,7 +444,6 @@ adminApp.controller("blogListAdminController", function ($scope, $http, $window)
                 $window.location.reload();
             } else {
                 console.log(data);
-                alert('操作失败');
             }
         }).fail(function (data) {
             //alert(data);
@@ -487,7 +476,6 @@ adminApp.controller("commentListAdminController", function ($scope, $http, $wind
                 $window.location.reload();
             } else {
                 console.log(data);
-                alert('操作失败');
             }
         }).fail(function (data) {
             //alert(data);
@@ -547,7 +535,6 @@ adminApp.controller("knowListAdminController", function ($scope, $http, $window)
                 $window.location.reload();
             } else {
                 console.log(data);
-                alert('操作失败');
             }
         }).fail(function (data) {
             //alert(data);
