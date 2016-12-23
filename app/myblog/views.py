@@ -30,8 +30,6 @@ def index(req):
     return render_to_response('index.html')
 
 
-def lab(req):
-    return render_to_response('lab.html')
 
 def blog(req, bid=None):
     if bid is not None:
@@ -163,120 +161,6 @@ def get_tag(req, tid=None):
     return HttpResponse(encodejson(1, body), content_type="application/json")
 
 
-@api_times
-def searche_know(req, text):
-    body={}
-
-    total = know_list.count()
-    total_page = math.ceil(float(total) / 2.0)
-    paginator = Paginator(know_list, 2)
-    page_num = 1
-    try:
-        page_num = int(req.GET.get('page'))
-        print page_num
-        know_list = paginator.page(page_num)
-    except PageNotAnInteger:
-        know_list = paginator.page(1)
-    except EmptyPage:
-        know_list = []
-    except:
-        know_list = paginator.page(page_num)
-    know_json = model_serializer(know_list, datetime_format="string", deep=True)
-    for i, itm in enumerate(know_list):
-        if i == 0:
-            know_json[i]['first'] = True
-        else:
-            know_json[i]['first'] = False
-        know_json[i]['env'] = model_serializer(itm.env.all(), include_attr=['content'])
-    page_list = []
-    for i in range(1, int(total_page) + 1):
-        paged={}
-        paged['page'] = i
-        if i == page_num:
-            paged['active'] = True
-        else:
-            paged['active'] = False
-        page_list.append(copy.copy(paged))
-    if page_num == total_page:
-        nextp = 0
-        prep = total_page - 1
-    elif page_num == 1:
-        prep = 0
-        nextp = page_num + 1
-    else:
-        prep = page_num - 1
-        nextp = page_num + 1
-    pagination = {'page': page_num,
-                  'total_page': total_page,
-                  'total': total,
-                  'pre': prep,
-                  'next': nextp,
-                  'page_list': page_list}
-    body['know_list'] = know_json
-    body['pagination'] = pagination
-    return HttpResponse(encodejson(1, body), content_type='application/json')
-
-
-@api_times
-def get_know(req, text=None):
-    body={}
-    if text is not None:
-        q_list = Knowledge.objects.filter(question__icontains=text, publish=True)
-        a_list = Knowledge.objects.filter(answer__icontains=text, publish=True)
-        know_list = q_list | a_list
-        know_list = know_list.distinct().order_by('-create_time')
-    else:
-        know_list = Knowledge.objects.filter(publish=True).order_by('-create_time')
-    total = know_list.count()
-    total_page = math.ceil(float(total) / 2.0)
-    paginator = Paginator(know_list, 2)
-    page_num = 1
-    try:
-        page_num = int(req.GET.get('page'))
-        know_list = paginator.page(page_num)
-    except PageNotAnInteger:
-        know_list = paginator.page(1)
-    except EmptyPage:
-        know_list = []
-    except:
-        know_list = paginator.page(page_num)
-    know_json = model_serializer(know_list, datetime_format="string", deep=True)
-    for i, itm in enumerate(know_list):
-        if i == 0:
-            know_json[i]['first'] = True
-        else:
-            know_json[i]['first'] = False
-        know_json[i]['answer'] = markdown.markdown(itm.answer, ['codehilite'])
-        # know_json[i]['answer'] = gfm.markdown(gfm.gfm(itm.answer))
-        know_json[i]['env'] = model_serializer(itm.env.all(), include_attr=['content'])
-    page_list = []
-    for i in range(1, int(total_page) + 1):
-        paged={}
-        paged['page'] = i
-        if i == page_num:
-            paged['active'] = True
-        else:
-            paged['active'] = False
-        page_list.append(copy.copy(paged))
-    if page_num == total_page:
-        nextp = 0
-        prep = total_page - 1
-    elif page_num == 1:
-        prep = 0
-        nextp = page_num + 1
-    else:
-        prep = page_num - 1
-        nextp = page_num + 1
-    pagination = {'page': page_num,
-                  'total_page': total_page,
-                  'total': total,
-                  'pre': prep,
-                  'next': nextp,
-                  'page_list': page_list}
-    body['know_list'] = know_json
-    body['pagination'] = pagination
-    return HttpResponse(encodejson(1, body), content_type='application/json')
-
 
 @api_times
 def detail(req, bid):
@@ -329,10 +213,6 @@ def detail(req, bid):
                 comment_json['reply'] = reply_json
             comment_list_json.append(copy.copy(comment_json))
     blog.content = markdown.markdown(blog.content, ['codehilite'])
-    # blog.content = gfm.markdown(gfm.gfm(blog.content))
-    # rndr = HtmlRenderer()
-    # md = Markdown(rndr)
-    # blog.content = md.render(blog.content)
     blog_json = model_serializer(blog, deep=True, datetime_format="string")
     blog_json['tags'] = model_serializer(blog.tags.all())
     verify, code = create_verify_code()
@@ -445,8 +325,8 @@ def submit_comment(req, bid=None):
         nick = 'Anonymous User'
     mid = req.POST.get('mid', None)
     user = req.session.get('user', None)
-    if user == 'rapospectre':
-        nick = 'RaPoSpectre'
+    if user == 'kovaljov':
+        nick = 'Kovaljov'
         avatar = 'master.png'
     else:
         avatar = 'default.png'

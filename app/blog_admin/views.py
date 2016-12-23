@@ -182,48 +182,6 @@ def new_env(req):
         return HttpResponse(encodejson(2, body), content_type="application/json")
     return HttpResponse(encodejson(1, body), content_type='application/json')
 
-
-@csrf_exempt
-@login_api
-def new_know(req):
-    body={}
-    question = req.POST.get('question')
-    answer = req.POST.get('answer')
-    env_str = str(req.POST.get('env'))
-    pub = req.POST.get('publish')
-    kid = req.POST.get('id')
-    if kid != '':
-        mknow = Knowledge.objects.get(id=kid)
-        mknow.question = question
-        mknow.answer = answer
-        mknow.publish = pub
-        mknow.save()
-    else:
-        nknow = Knowledge(question=question,
-                          answer=answer)
-        nknow.save()
-        env_str = env_str.split(',')
-        for itm in env_str:
-            try:
-                senv = Env.objects.get(id=itm)
-                nknow.env.add(senv)
-            except:
-                continue
-        nknow.save()
-    return HttpResponse(encodejson(1, body), content_type='application/json')
-
-
-@login_api
-def know_list(req):
-    body={}
-    knows = Knowledge.objects.all().order_by('-create_time')
-    know_json = model_serializer(knows, datetime_format="string", except_attr=['answer'])
-    # for i, itm in enumerate(knows):
-    #     know_json[i]['env'] = model_serializer(itm.env.all(), include_attr=['content'])
-    body['know_list'] = know_json
-    return HttpResponse(encodejson(1, body), content_type='application/json')
-
-
 @login_api
 def blog_list(req):
     body={}
